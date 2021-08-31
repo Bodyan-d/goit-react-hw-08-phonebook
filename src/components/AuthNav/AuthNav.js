@@ -9,12 +9,13 @@ export default function AuthNav() {
       color="primary"
       aria-label="text primary button group"
     >
-      <Button>
-        <NavLink to="/register">Register</NavLink>
-      </Button>
-      <Button>
-        <NavLink to="/login">Login</NavLink>
-      </Button>
+      <NavLink to="/register">
+        <Button color="primary">Register</Button>
+      </NavLink>
+
+      <NavLink to="/login">
+        <Button color="primary">Login</Button>
+      </NavLink>
     </ButtonGroup>
   );
 }
