@@ -11,7 +11,6 @@ import Login from './components/Login';
 import Register from './components/Register';
 
 function App() {
-  const contacts = useSelector(state => state.contacts.items);
   const filter = useSelector(state => state.contacts.filter);
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
@@ -20,29 +19,12 @@ function App() {
     dispatch(options.fetchContacts());
   }, [dispatch]);
 
-  const handleFilter = () => {
-    return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(filter.toLowerCase()),
-    );
-  };
-
-  const deleteItem = async e => {
-    const { id } = e.target;
-
-    await dispatch(options.deleteContact(id));
-    dispatch(options.fetchContacts());
-  };
-
   return (
     <div className="container">
       <AppBar />
       <Switch>
         <Route path="/contacts">
-          <Phonebook
-            filter={filter}
-            contacts={handleFilter()}
-            deleteItem={deleteItem}
-          />
+          <Phonebook />
         </Route>
         <Route path="/login">
           <Login />

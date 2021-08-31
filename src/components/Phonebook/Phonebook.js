@@ -7,7 +7,7 @@ import * as action from '../redux/phonebook/phonebook-actions';
 import Filter from '../Filter/Filter';
 import ContactList from '../ContactList/ContactList';
 
-export default function Phonebook({ handleFilter }) {
+export default function Phonebook() {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   const dispatch = useDispatch();
@@ -28,6 +28,12 @@ export default function Phonebook({ handleFilter }) {
 
     setName('');
     setNumber('');
+  };
+
+  const handleFilter = () => {
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(filter.toLowerCase()),
+    );
   };
 
   const handleChange = e => {
@@ -63,8 +69,8 @@ export default function Phonebook({ handleFilter }) {
       />
 
       <h2>Contacts</h2>
-      {/* <Filter filter={filter} handleChange={handleChange} /> */}
-      {/* <ContactList contacts={handleFilter()} deleteItem={deleteItem} /> */}
+      <Filter filter={filter} handleChange={handleChange} />
+      <ContactList contacts={handleFilter()} deleteItem={deleteItem} />
     </div>
   );
 }

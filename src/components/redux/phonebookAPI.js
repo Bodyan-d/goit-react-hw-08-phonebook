@@ -5,7 +5,7 @@ async function postContact({ name, number }) {
   console.log(name, number);
 
   const { data } = await axios
-    .post('http://localhost:3000/contacts', {
+    .post('/contacts', {
       name,
       number,
     })
@@ -17,14 +17,14 @@ async function postContact({ name, number }) {
 
 async function deleteContact(id) {
   const { data } = await axios
-    .delete(`http://localhost:3000/contacts/${id}`)
+    .delete(`/contacts/${id}`)
     .then(res => res)
     .catch(err => err);
   return data;
 }
 
 async function fetchContacts() {
-  const { data } = await axios.get('http://localhost:3000/contacts');
+  const { data } = await axios.get('/contacts');
 
   return data;
 }
