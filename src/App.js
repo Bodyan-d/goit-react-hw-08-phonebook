@@ -1,21 +1,22 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import auth from './components/redux/auth/auth-operation';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, Redirect } from 'react-router';
-import * as action from './components/redux/phonebook/phonebook-actions';
 import * as options from './components/redux/phonebook/phonebook-options';
-
 import './App.css';
+import PrivateRoute from './PrivateRoute';
+import PublicRoute from './PublicRoute';
 import AppBar from './components/AppBar';
 import Phonebook from './components/Phonebook';
 import Login from './components/Login';
 import Register from './components/Register';
 
 function App() {
-  const filter = useSelector(state => state.contacts.filter);
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
 
   useEffect(() => {
+    dispatch(auth.currentUser());
     dispatch(options.fetchContacts());
   }, [dispatch]);
 
@@ -23,15 +24,15 @@ function App() {
     <div className="container">
       <AppBar />
       <Switch>
-        <Route path="/contacts">
+        <PrivateRoute path="/contacts">
           <Phonebook />
-        </Route>
-        <Route path="/login">
+        </PrivateRoute>
+        <PublicRoute path="/login" restricted>
           <Login />
-        </Route>
-        <Route path="/register">
+        </PublicRoute>
+        <PublicRoute path="/register" restricted>
           <Register />
-        </Route>
+        </PublicRoute>
         <Route path="/">
           {!isLoggedIn ? <Redirect to="/login" /> : <Redirect to="/contacts" />}
         </Route>

@@ -24,9 +24,8 @@ const middleware = [
 ];
 
 const authPersistConfig = {
-  key: 'auth',
+  key: 'root',
   storage,
-  whitelist: ['token'],
 };
 
 export const store = configureStore({
@@ -36,7 +35,6 @@ export const store = configureStore({
   },
   devTools: process.env.NODE_ENV === 'development',
   middleware,
-  /* preloadedState, */
 });
 
 export const persistor = persistStore(store);

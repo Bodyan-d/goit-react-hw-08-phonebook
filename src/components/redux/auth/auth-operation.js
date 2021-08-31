@@ -1,23 +1,23 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+const { token } = localStorage.getItem('persist:root');
 axios.defaults.baseURL = 'https://connections-api.herokuapp.com';
 
-const token = {
-  set(token) {
-    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+const tokenNow = {
+  set(tokenNow) {
+    axios.defaults.headers.post.Authorization = `Bearer ${tokenNow}`;
   },
   unset() {
-    axios.defaults.headers.common.Authorization = ``;
+    axios.defaults.headers.post.Authorization = ``;
   },
 };
 
 const register = createAsyncThunk('auth/register', async credential => {
   try {
-    console.log(credential);
     const { data } = await axios.post('/users/signup', credential);
-    token.set(data.token);
-    console.log(data);
+    tokenNow.set(data.token);
+
     return data;
   } catch (error) {
     return new Error(error);
@@ -26,10 +26,8 @@ const register = createAsyncThunk('auth/register', async credential => {
 
 const login = createAsyncThunk('auth/login', async credential => {
   try {
-    console.log(credential);
     const { data } = await axios.post('/users/login', credential);
-    token.set(data.token);
-    console.log(data);
+    tokenNow.set(data.token);
     return data;
   } catch (error) {
     return new Error(error);
@@ -39,45 +37,19 @@ const login = createAsyncThunk('auth/login', async credential => {
 const logout = createAsyncThunk('auth/logout', async credential => {
   try {
     await axios.post('/users/logout');
-    token.unset();
+    tokenNow.unset();
   } catch (error) {}
 });
 
-const currentUser = createAsyncThunk('auth/logout', async credential => {
+const currentUser = createAsyncThunk('auth/current', async credential => {
   try {
-    const { data } = await axios.post('/users​/current');
+    const { data } = await axios.get('/users​/current', {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    tokenNow.set(data.token);
     console.log(data);
-    token.set(data.token);
   } catch (error) {}
 });
-
-// async function postContact({ name, number }) {
-//   console.log(name, number);
-
-//   const { data } = await axios
-//     .post('/contacts', {
-//       name,
-//       number,
-//     })
-//     .then(res => res)
-//     .catch(err => err);
-
-//   return data;
-// }
-
-// async function deleteContact(id) {
-//   const { data } = await axios
-//     .delete(`/contacts/${id}`)
-//     .then(res => res)
-//     .catch(err => err);
-//   return data;
-// }
-
-// async function fetchContacts() {
-//   const { data } = await axios.get('/contacts');
-
-//   return data;
-// }
 
 const auth = {
   register,
