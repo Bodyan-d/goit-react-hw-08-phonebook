@@ -18,7 +18,7 @@ function App() {
   useEffect(() => {
     dispatch(auth.currentUser());
     dispatch(options.fetchContacts());
-  }, [dispatch]);
+  }, []);
 
   return (
     <div className="container">
