@@ -2,22 +2,37 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 const profile = localStorage.getItem('persist:root');
+console.log(JSON.parse(profile));
+
 axios.defaults.baseURL = 'https://connections-api.herokuapp.com';
 
-const tokenNow = {
-  set(tokenNow) {
-    axios.defaults.headers.post.Authorization = `Bearer ${tokenNow}`;
+const getCurrentUser = 'https://connections-api.herokuapp.com/users​/current';
+
+const token = {
+  set(token) {
+    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
   },
   unset() {
-    axios.defaults.headers.post.Authorization = ``;
+    axios.defaults.headers.common.Authorization = ``;
   },
 };
+
+const currentUser = createAsyncThunk('auth/current', async credential => {
+  try {
+    console.log('her');
+    const { data } = await axios.get(`${getCurrentUser}`, {
+      headers: { Authorization: `Bearer ${JSON.parse(profile)?.token}` },
+    });
+    token.set(data.token);
+    console.log(data);
+  } catch (error) {}
+});
 
 const register = createAsyncThunk('auth/register', async credential => {
   try {
     console.log(credential);
     const { data } = await axios.post('/users/signup', credential);
-    tokenNow.set(data.token);
+    token.set(data.token);
     return data;
   } catch (error) {
     return new Error(error);
@@ -28,7 +43,7 @@ const login = createAsyncThunk('auth/login', async credential => {
   try {
     console.log(credential);
     const { data } = await axios.post('/users/login', credential);
-    tokenNow.set(data.token);
+    token.set(data?.token);
     return data;
   } catch (error) {
     return new Error(error);
@@ -38,17 +53,7 @@ const login = createAsyncThunk('auth/login', async credential => {
 const logout = createAsyncThunk('auth/logout', async credential => {
   try {
     await axios.post('/users/logout');
-    tokenNow.unset();
-  } catch (error) {}
-});
-
-const currentUser = createAsyncThunk('auth/current', async credential => {
-  try {
-    const { data } = await axios.get('/users​/current', {
-      headers: { Authorization: `Bearer ${profile?.token}` },
-    });
-    tokenNow.set(data.token);
-    console.log(data);
+    token.unset();
   } catch (error) {}
 });
 

@@ -30,6 +30,7 @@ const authReduser = createSlice({
 
     [authOperations.currentUser.fulfilled](state, action) {
       console.log('fff');
+      console.log(action);
       state.user = action.payload.user;
       state.token = action.payload.token;
       state.isLoggedIn = true;

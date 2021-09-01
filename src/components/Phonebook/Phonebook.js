@@ -15,15 +15,15 @@ export default function Phonebook() {
   const contacts = useSelector(state => state.contacts.items);
   const filter = useSelector(state => state.contacts.filter);
 
-  const handleSubmit = e => {
+  const handleSubmit = async function (e) {
     e.preventDefault();
 
-    if (contacts.some(contact => contact.name.includes(name))) {
+    if (contacts.some(contact => contact?.name.includes(name))) {
       alert(`${name} is already in contacts`);
       return;
     }
 
-    dispatch(options.postContacts({ name, number }));
+    await dispatch(options.postContacts({ name, number }));
     dispatch(options.fetchContacts());
 
     setName('');
@@ -32,7 +32,7 @@ export default function Phonebook() {
 
   const handleFilter = () => {
     return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(filter.toLowerCase()),
+      contact?.name.toLowerCase().includes(filter.toLowerCase()),
     );
   };
 

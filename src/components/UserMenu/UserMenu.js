@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import auth from '../redux/auth/auth-operation';
 import { Avatar, Button } from '@material-ui/core';
@@ -9,6 +9,10 @@ export default function UserMenu() {
   const user = useSelector(state => state.auth.user);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(auth.currentUser());
+  }, [dispatch]);
   return (
     <div className={styles.cont}>
       <Avatar alt="avatar" color="primary">

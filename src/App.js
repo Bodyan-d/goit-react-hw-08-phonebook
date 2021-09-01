@@ -16,7 +16,6 @@ function App() {
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
 
   useEffect(() => {
-    dispatch(auth.currentUser());
     dispatch(options.fetchContacts());
   }, []);
 
