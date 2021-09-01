@@ -29,10 +29,9 @@ const authReduser = createSlice({
     },
 
     [authOperations.currentUser.fulfilled](state, action) {
-      console.log('fff');
       console.log(action);
-      state.user = action.payload.user;
-      state.token = action.payload.token;
+      state.user.name = action.payload.name;
+      state.user.email = action.payload.email;
       state.isLoggedIn = true;
     },
   },

@@ -13,7 +13,12 @@ async function postContact({ name, number }) {
         number,
       },
       {
-        headers: { Authorization: `Bearer ${JSON.parse(profile)?.token}` },
+        headers: {
+          Authorization: `Bearer ${JSON.parse(profile)?.token.replace(
+            /['"]/g,
+            '',
+          )}`,
+        },
       },
     )
     .then(res => res)
@@ -24,8 +29,13 @@ async function postContact({ name, number }) {
 
 async function deleteContact(id) {
   const { data } = await axios
-    .delete(`/contacts/${id}`, null, {
-      headers: { Authorization: `Bearer ${JSON.parse(profile)?.token}` },
+    .delete(`/contacts/${id}`, {
+      headers: {
+        Authorization: `Bearer ${JSON.parse(profile)?.token.replace(
+          /['"]/g,
+          '',
+        )}`,
+      },
     })
     .then(res => res)
     .catch(err => err);
@@ -33,8 +43,13 @@ async function deleteContact(id) {
 }
 
 async function fetchContacts() {
-  const { data } = await axios.get('/contacts', null, {
-    headers: { Authorization: `Bearer ${JSON.parse(profile)?.token}` },
+  const { data } = await axios.get('/contacts', {
+    headers: {
+      Authorization: `Bearer ${JSON.parse(profile)?.token.replace(
+        /['"]/g,
+        '',
+      )}`,
+    },
   });
 
   return data;
