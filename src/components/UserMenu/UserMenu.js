@@ -14,7 +14,7 @@ export default function UserMenu() {
       <Avatar alt="avatar" color="primary">
         <AccountCircle style={{ fontSize: 50 }} color="primary" />
       </Avatar>
-      <p className={styles.email}>{user.name}</p>
+      <p className={styles.email}>{user?.name}</p>
       <Button
         onClick={() => dispatch(auth.logout())}
         variant="contained"

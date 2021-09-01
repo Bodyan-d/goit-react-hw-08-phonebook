@@ -55,7 +55,7 @@ export default function Phonebook() {
     const { id } = e.target;
 
     await dispatch(options.deleteContact(id));
-    dispatch(options.fetchContacts());
+    await dispatch(options.fetchContacts());
   };
 
   return (
