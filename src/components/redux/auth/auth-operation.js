@@ -43,7 +43,7 @@ const logout = createAsyncThunk('auth/logout', async credential => {
 const currentUser = createAsyncThunk('auth/current', async credential => {
   try {
     const { data } = await axios.get('/users​/current', {
-      headers: { Authorization: `Bearer ${profile.token}` },
+      headers: { Authorization: `Bearer ${profile?.token}` },
     });
     tokenNow.set(data.token);
     console.log(data);

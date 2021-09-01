@@ -1,9 +1,6 @@
 import axios from 'axios';
-import { v4 as uuidv4 } from 'uuid';
 
 async function postContact({ name, number }) {
-  console.log(name, number);
-
   const { data } = await axios
     .post('/contacts', {
       name,
