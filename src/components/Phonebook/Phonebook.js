@@ -1,11 +1,16 @@
 import React from 'react';
 import ContactForm from '../ContactForm/ContactForm';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as options from '../redux/phonebook/phonebook-options';
-import * as action from '../redux/phonebook/phonebook-actions';
+import * as options from '../../redux/phonebook/phonebook-option';
+import * as action from '../../redux/phonebook/phonebook-action';
 import Filter from '../Filter/Filter';
 import ContactList from '../ContactList/ContactList';
+import 'react-notifications/lib/notifications.css';
+import {
+  NotificationContainer,
+  NotificationManager,
+} from 'react-notifications';
 
 export default function Phonebook() {
   const [name, setName] = useState('');
@@ -15,19 +20,21 @@ export default function Phonebook() {
   const contacts = useSelector(state => state.contacts.items);
   const filter = useSelector(state => state.contacts.filter);
 
-  const handleSubmit = async function (e) {
+  useEffect(() => {
+    dispatch(options.fetchContacts());
+  }, []);
+
+  const handleSubmit = function (e) {
     e.preventDefault();
+    setName('');
+    setNumber('');
 
     if (contacts.some(contact => contact?.name.includes(name))) {
-      alert(`${name} is already in contacts`);
+      NotificationManager.error(`${name} is alredy in contacts`, 'Error', 3000);
       return;
     }
 
-    await dispatch(options.postContacts({ name, number }));
-    dispatch(options.fetchContacts());
-
-    setName('');
-    setNumber('');
+    dispatch(options.postContacts({ name, number }));
   };
 
   const handleFilter = () => {
@@ -55,7 +62,7 @@ export default function Phonebook() {
     const { id } = e.target;
 
     await dispatch(options.deleteContact(id));
-    await dispatch(options.fetchContacts());
+    dispatch(options.fetchContacts());
   };
 
   return (
@@ -67,10 +74,11 @@ export default function Phonebook() {
         handleChange={handleChange}
         handleSubmit={handleSubmit}
       />
-
       <h2>Contacts</h2>
       <Filter filter={filter} handleChange={handleChange} />
       <ContactList contacts={handleFilter()} deleteItem={deleteItem} />
+
+      <NotificationContainer />
     </div>
   );
 }

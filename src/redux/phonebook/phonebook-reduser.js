@@ -1,10 +1,6 @@
 import { createReducer, combineReducers } from '@reduxjs/toolkit';
-import { filterContacts } from './phonebook-actions';
-import {
-  fetchContacts,
-  postContacts,
-  deleteContact,
-} from './phonebook-options';
+import { filterContacts } from './phonebook-action';
+import { fetchContacts, postContacts, deleteContact } from './phonebook-option';
 
 const items = createReducer([], {
   [fetchContacts.fulfilled]: (_, action) => action.payload,

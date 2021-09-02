@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import auth from '../redux/auth/auth-operation';
+import { useDispatch } from 'react-redux';
+import auth from '../../redux/auth/auth-operation';
 import { TextField, Button } from '@material-ui/core';
 import styles from './Login.module.css';
-import { Redirect } from 'react-router-dom';
 
 export default function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const isLoggedIn = useSelector(state => state.isLoggedIn);
   const dispatch = useDispatch();
 
   const handleChange = e => {

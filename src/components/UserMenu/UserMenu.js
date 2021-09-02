@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import auth from '../redux/auth/auth-operation';
+import auth from '../../redux/auth/auth-operation';
 import { Avatar, Button } from '@material-ui/core';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import styles from './UserMenu.module.css';

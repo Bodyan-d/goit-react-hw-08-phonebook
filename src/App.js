@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
-import auth from './components/redux/auth/auth-operation';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, Redirect } from 'react-router';
-import * as options from './components/redux/phonebook/phonebook-options';
+import * as options from './redux/phonebook/phonebook-option';
 import './App.css';
 import PrivateRoute from './PrivateRoute';
 import PublicRoute from './PublicRoute';
